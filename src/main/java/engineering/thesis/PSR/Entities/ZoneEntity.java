@@ -17,7 +17,7 @@ public class ZoneEntity {
 
     @Id
     @NotNull
-    @GeneratedValue(strategy = GenerationType.SEQUENCE)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long zoneId;
 
     @NotNull

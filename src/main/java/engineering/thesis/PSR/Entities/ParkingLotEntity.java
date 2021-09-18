@@ -17,7 +17,7 @@ public class ParkingLotEntity {
 
     @Id
     @NotNull
-    @GeneratedValue(strategy = GenerationType.SEQUENCE)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long parkingLotId;
 
     @NotNull
