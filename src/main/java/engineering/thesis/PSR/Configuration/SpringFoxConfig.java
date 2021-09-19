@@ -16,7 +16,7 @@ public class SpringFoxConfig {
     public Docket apiDocket() {
         return new Docket(DocumentationType.SWAGGER_2)
                 .select()
-                .apis(RequestHandlerSelectors.any())
+                .apis(RequestHandlerSelectors.basePackage("engineering.thesis.PSR.Controller"))
                 .paths(PathSelectors.any())
                 .build();
         }

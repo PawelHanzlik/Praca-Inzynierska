@@ -14,7 +14,7 @@
 	<name>PSR</name>
 	<description>Design and implementation of a parking space recommendation system in the car sharing service </description>
 	<properties>
-		<java.version>16</java.version>
+		<java.version>17</java.version>
 	</properties>
 	<dependencies>
 		<dependency>
