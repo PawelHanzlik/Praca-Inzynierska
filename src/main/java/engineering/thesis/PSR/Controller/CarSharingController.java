@@ -25,8 +25,6 @@ public class CarSharingController {
     private final ParkingLotService parkingService;
     private final UserService userService;
 
-    private int sfpcTestcounter = 0;
-
     @Autowired
     public CarSharingController(ZoneService zoneService, ParkingLotService parkingLotService, UserService userService){
         this.zoneService = zoneService;
@@ -37,7 +35,7 @@ public class CarSharingController {
 
 
     @GetMapping("/sfps")
-    public String searchForParkingSpot(@RequestParam(value = "Lat", defaultValue = "0") int x,@RequestParam(value = "Lon", defaultValue = "0") int y,@RequestParam(value = "user", defaultValue = "-1")int user) {
+    public String searchForParkingSpot(@RequestParam(value = "Lat", defaultValue = "0") int x,@RequestParam(value = "Lon", defaultValue = "0") int y,@RequestParam(value = "user", defaultValue = "1")int user) {
 
         List<ZoneEntity> zones = new ArrayList<>();
         //wybierz strefy z bazy danych które przylegają do lokacji
@@ -46,24 +44,24 @@ public class CarSharingController {
                     (zone.getCordX()==x & zone.getCordY()==y-1)){ zones.add(zone);}
         });
 
-        class zonetouple{
+        class ZoneTuple {
             public final long ZoneId;
             public final int Score;
-            public zonetouple(long parkingId,int Score){this.ZoneId = parkingId;this.Score=Score;}
+
+            public ZoneTuple(long parkingId, int Score){
+                this.ZoneId = parkingId;
+                this.Score=Score;
+            }
 
             @Override
             public String toString(){
                 return String.format("ZoneId: %d     Score: %d \n", ZoneId,Score);
             }
         }
-        int NoUser;
-        if (user == (-1)) NoUser = this.sfpcTestcounter++;
-        else NoUser = user;
-
-        List<zonetouple> results = new ArrayList<>();
-        Solver solver = new Solver(zones,userService.getAllUsers().get(NoUser));
+        List<ZoneTuple> results = new ArrayList<>();
+        Solver solver = new Solver(zones,userService.getAllUsers().get(user));
         parkingService.getAllParkingLots().forEach(parking ->
-                results.add(new zonetouple(parking.getParkingLotId(),solver.test(parking))));
+                results.add(new ZoneTuple(parking.getParkingLotId(),solver.test(parking))));
 
         results.sort(Comparator.comparingInt(obj -> obj.Score));
         return zoneService.getAllZones().size() + "\n" + results;
@@ -125,9 +123,6 @@ public class CarSharingController {
 
             userService.addUser(user);
         }
-
-
-
         return "ok ";
     }
 }
