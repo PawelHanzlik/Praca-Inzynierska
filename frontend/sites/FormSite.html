@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>FormSite</title>
+    <link rel="stylesheet" media="screen" href="FormSiteStyle.css" type="text/css"  />
+</head>
+<body>
+<div id="title">
+    <p> PARKING SPOT RECOMMENDATION SYSTEM</p>
+</div>
+<div id="form">
+
+    <label class="centered" id="streetNameTitle" for="streetName">Insert destination location:</label>
+    <input class="centered" type="text" id="streetName" name="streetName">
+
+    <p class="centered" id="disabledTitle">Do you want a parking spot for disabled people?</p>
+
+    <input class="centered" type="radio" id="disabledYes" name="disabled" value="Yes" checked>
+    <label id="disabledYesLabel" class="centered" for="disabledYes">Yes</label>
+
+    <input class="centered" type="radio" id="disabledNo" name="disabled" value="No">
+    <label id="disabledNoLabel" class="centered" for="disabledNo">No</label>
+
+    <p class="centered" id="freeSpacesTitle">Do you want a parking spot with at least 10 free spaces?</p>
+
+    <input class="centered" type="radio" id="freeSpacesYes" name="freeSpaces" value="Yes" checked>
+    <label id="freeSpacesYesLabel" class="centered" for="freeSpacesYes">Yes</label>
+
+    <input class="centered" type="radio" id="freeSpacesNo" name="freeSpaces" value="No">
+    <label id="freeSpacesNoLabel" class="centered" for="freeSpacesNo">No</label>
+
+    <p class="centered" id="guardedTitle">Do you want a guarded parking spot?</p>
+
+    <input class="centered" type="radio" id="guardedYes" name="guarded" value="Yes" checked>
+    <label id="guardedYesLabel" class="centered" for="guardedYes">Yes</label>
+
+    <input class="centered" type="radio" id="guardedNo" name="guarded" value="No">
+    <label id="guardedNoLabel" class="centered" for="guardedNo">No</label>
+
+    <p class="centered" id="spotSizeTitle">Do you want a large parking spot?</p>
+
+    <input class="centered" type="radio" id="spotSizeYes" name="spotSize" value="Yes" checked>
+    <label id="spotSizeYesLabel" class="centered" for="spotSizeYes">Yes</label>
+
+    <input class="centered" type="radio" id="spotSizeNo" name="guarded" value="No">
+    <label id="spotSizeNoLabel" class="centered" for="spotSizeNo">No</label>
+
+    <button id="button" class="button">
+        <a href="CityPickSite.html">SUBMIT</a>
+    </button>
+
+    <img id="agh" src="agh_image.jpg" alt="agh"/>
+    <p id ="topic" class="agh">
+        Design and implementation of a parking space recommendation
+        system in the car sharing service
+    </p>
+</div>
+</body>
+</html>

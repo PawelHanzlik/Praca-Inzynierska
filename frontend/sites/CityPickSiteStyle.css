@@ -19,7 +19,7 @@
 .button {
     position: absolute;
     top: 38%;
-    right: 15%;
+    right: 35%;
     font-size: 20pt;
 }
 #select{
@@ -41,7 +41,14 @@
     position: absolute;
     text-align: center;
     bottom: 5%;
-    left: 10%;
+    left: 30%;
+}
+.button a {
+    color: #000000;
+    text-decoration: none;
+}
+.button a:hover {
+    color: green;
 }
 body{
     background-color: green;
