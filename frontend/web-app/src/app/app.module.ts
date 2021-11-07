@@ -1,12 +1,22 @@
-import { NgModule } from '@angular/core';
+ import { NgModule } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
 
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
+import { FormComponent } from './form/form.component';
+import { CityComponent } from './city/city.component';
+import { ResultComponent } from './result/result.component';
+import { HeaderComponent } from './header/header.component';
+import { MainPageComponent } from './main-page/main-page.component';
 
 @NgModule({
   declarations: [
-    AppComponent
+    AppComponent,
+    FormComponent,
+    CityComponent,
+    ResultComponent,
+    HeaderComponent,
+    MainPageComponent
   ],
   imports: [
     BrowserModule,
