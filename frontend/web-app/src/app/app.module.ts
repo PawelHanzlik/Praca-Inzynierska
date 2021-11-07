@@ -8,6 +8,7 @@ import { CityComponent } from './city/city.component';
 import { ResultComponent } from './result/result.component';
 import { HeaderComponent } from './header/header.component';
 import { MainPageComponent } from './main-page/main-page.component';
+import { FooterComponent } from './footer/footer.component';
 
 @NgModule({
   declarations: [
@@ -16,7 +17,8 @@ import { MainPageComponent } from './main-page/main-page.component';
     CityComponent,
     ResultComponent,
     HeaderComponent,
-    MainPageComponent
+    MainPageComponent,
+    FooterComponent
   ],
   imports: [
     BrowserModule,
