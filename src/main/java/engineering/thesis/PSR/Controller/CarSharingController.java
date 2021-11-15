@@ -68,7 +68,8 @@ public class CarSharingController {
 
         results.sort(Comparator.comparingInt(ZoneTuple::getScore).reversed());
         System.out.println(results);
-        return new ResponseEntity<>(zoneService.getAllZones().size() + "\n" + results, HttpStatus.OK);
+        List<ZoneTuple> topResults = results.subList(0,3);
+        return new ResponseEntity<>(topResults.toString(), HttpStatus.OK);
     }
 
     @GetMapping("/sfc")
