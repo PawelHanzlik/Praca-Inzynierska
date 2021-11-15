@@ -24,6 +24,9 @@ public class ZoneEntity {
     private String zoneType;
 
     @NotNull
+    private String city;
+
+    @NotNull
     private Double occupiedRatio;
 
     @NotNull

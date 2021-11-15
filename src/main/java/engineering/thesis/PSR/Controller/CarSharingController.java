@@ -7,11 +7,11 @@ import engineering.thesis.PSR.Services.ParkingLotService;
 import engineering.thesis.PSR.Services.UserService;
 import engineering.thesis.PSR.Services.ZoneService;
 import engineering.thesis.PSR.Solver;
+import lombok.Getter;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.ArrayList;
 import java.util.Comparator;
@@ -35,36 +35,40 @@ public class CarSharingController {
 
 
     @GetMapping("/sfps")
-    public String searchForParkingSpot(@RequestParam(value = "Lat", defaultValue = "0") int x,@RequestParam(value = "Lon", defaultValue = "0") int y,@RequestParam(value = "user", defaultValue = "1")int user) {
+    public ResponseEntity<String> searchForParkingSpot(@RequestParam(value = "Lat", defaultValue = "0") int x, @RequestParam(value = "Lon", defaultValue = "0") int y,
+                                                       @RequestParam()String [] usersChoices) {
 
         List<ZoneEntity> zones = new ArrayList<>();
         //wybierz strefy z bazy danych które przylegają do lokacji
         zoneService.getAllZones().forEach(zone -> {
-            if ((zone.getCordX()<= x+1 & zone.getCordX()>= x-1 & zone.getCordY()<= y+1 & zone.getCordY()>= y) ||
-                    (zone.getCordX()==x & zone.getCordY()==y-1)){ zones.add(zone);}
+            if (zoneService.isAdjacent(zone, x, y)) {
+                zones.add(zone);
+            }
         });
 
+        @Getter
         class ZoneTuple {
-            public final long ZoneId;
+            public final long ParkingId;
             public final int Score;
 
-            public ZoneTuple(long parkingId, int Score){
-                this.ZoneId = parkingId;
-                this.Score=Score;
+            public ZoneTuple(long parkingId, int Score) {
+                this.ParkingId = parkingId;
+                this.Score = Score;
             }
 
             @Override
-            public String toString(){
-                return String.format("ZoneId: %d     Score: %d \n", ZoneId,Score);
+            public String toString() {
+                return String.format("ParkingId: %d     Score: %d \n", ParkingId, Score);
             }
         }
         List<ZoneTuple> results = new ArrayList<>();
-        Solver solver = new Solver(zones,userService.getAllUsers().get(user));
+        Solver solver = new Solver(zones,usersChoices);
         parkingService.getAllParkingLots().forEach(parking ->
                 results.add(new ZoneTuple(parking.getParkingLotId(),solver.test(parking))));
 
-        results.sort(Comparator.comparingInt(obj -> obj.Score));
-        return zoneService.getAllZones().size() + "\n" + results;
+        results.sort(Comparator.comparingInt(ZoneTuple::getScore).reversed());
+        System.out.println(results);
+        return new ResponseEntity<>(zoneService.getAllZones().size() + "\n" + results, HttpStatus.OK);
     }
 
     @GetMapping("/sfc")
@@ -83,14 +87,15 @@ public class CarSharingController {
     }
 
     @GetMapping("/GenerateData")
-    public String GenerateZones(@RequestParam(value = "amount", defaultValue = "5") int amount) {
+    public HttpStatus GenerateZones(@RequestParam(defaultValue = "Kraków") String city) {
 
+        int amount = 5;
 
-        //zones
         for (int x = (-1)*amount; x < amount; x++)
             for (int y = (-1)*amount; y < amount; y++) {
             ZoneEntity zone = new ZoneEntity();
             zone.setZoneType("test");
+            zone.setCity(city);
             zone.setOccupiedRatio(Math.round(Math.random()*100.0)/100.0);
             zone.setAttractivenessRatio(Math.round(Math.random()*100.0)/100.0);
             zone.setRequestRatio(Math.round(Math.random()*100.0)/100.0);
@@ -99,7 +104,7 @@ public class CarSharingController {
             zoneService.addZone(zone);
         }
         List<ZoneEntity> zones = zoneService.getAllZones();
-        //ParkingLots
+
         for (int i = 0; i < amount*amount*10; i++) {
             ParkingLotEntity parking = new ParkingLotEntity();
             parking.setZoneId(zones.get((int) Math.round(Math.random()*(zones.size()-1))).getZoneId());
@@ -112,18 +117,18 @@ public class CarSharingController {
             parkingService.addParkingLot(parking);
         }
 
-        for (int i = 0; i < amount*amount*10; i++) {
-            UserEntity user = new UserEntity();
-            user.setCarSize((int) Math.round(Math.random()*10)+1);
-            user.setAge((int) (Math.round(Math.random()*50)+20));
-            user.setHandicapped(Math.random()>0.75);
-            user.setName("Jack");
-            user.setSurname("aaa");
-            user.setPreferableZone(zones.get((int) Math.round(Math.random()*(zones.size()-1))).getZoneId());
-
-            userService.addUser(user);
-        }
-        return "ok ";
+//        for (int i = 0; i < amount*amount*10; i++) {
+//            UserEntity user = new UserEntity();
+//            user.setCarSize((int) Math.round(Math.random()*10)+1);
+//            user.setAge((int) (Math.round(Math.random()*50)+20));
+//            user.setHandicapped(Math.random()>0.75);
+//            user.setName("Jack");
+//            user.setSurname("aaa");
+//            user.setPreferableZone(zones.get((int) Math.round(Math.random()*(zones.size()-1))).getZoneId());
+//
+//            userService.addUser(user);
+//        }
+        return HttpStatus.OK;
     }
-}
 
+}

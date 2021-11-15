@@ -9,6 +9,9 @@ import { ResultComponent } from './result/result.component';
 import { HeaderComponent } from './header/header.component';
 import { MainPageComponent } from './main-page/main-page.component';
 import { FooterComponent } from './footer/footer.component';
+ import {HttpClientModule} from "@angular/common/http";
+ import {FormsModule} from "@angular/forms";
+ import {AppService} from "./app-service";
 
 @NgModule({
   declarations: [
@@ -22,9 +25,11 @@ import { FooterComponent } from './footer/footer.component';
   ],
   imports: [
     BrowserModule,
-    AppRoutingModule
+    AppRoutingModule,
+    HttpClientModule,
+    FormsModule
   ],
-  providers: [],
+  providers: [AppService],
   bootstrap: [AppComponent]
 })
 export class AppModule { }
