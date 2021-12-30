@@ -12,6 +12,5 @@ public interface UserService {
     List<UserEntity> getAllUsers();
     UserEntity addUser(UserEntity user);
     void deleteUser(Long userId) throws NoSuchUserException;
-    void changeUserCarSize(Long userId, Integer newCarSize) throws NoSuchUserException;
     void changeUserPreferableZone(Long userId, Long zoneId) throws NoSuchUserException, NoSuchZoneException;
 }

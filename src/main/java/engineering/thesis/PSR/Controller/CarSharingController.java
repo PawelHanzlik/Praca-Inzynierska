@@ -1,10 +1,8 @@
 package engineering.thesis.PSR.Controller;
 
 import engineering.thesis.PSR.Entities.ParkingLotEntity;
-import engineering.thesis.PSR.Entities.UserEntity;
 import engineering.thesis.PSR.Entities.ZoneEntity;
 import engineering.thesis.PSR.Services.ParkingLotService;
-import engineering.thesis.PSR.Services.UserService;
 import engineering.thesis.PSR.Services.ZoneService;
 import engineering.thesis.PSR.Solver;
 import lombok.Getter;
@@ -23,13 +21,11 @@ public class CarSharingController {
 
     private final ZoneService zoneService;
     private final ParkingLotService parkingService;
-    private final UserService userService;
 
     @Autowired
-    public CarSharingController(ZoneService zoneService, ParkingLotService parkingLotService, UserService userService){
+    public CarSharingController(ZoneService zoneService, ParkingLotService parkingLotService){
         this.zoneService = zoneService;
         this.parkingService = parkingLotService;
-        this.userService = userService;
     }
 
 
@@ -95,11 +91,9 @@ public class CarSharingController {
         for (int x = (-1)*amount; x < amount; x++)
             for (int y = (-1)*amount; y < amount; y++) {
             ZoneEntity zone = new ZoneEntity();
-            zone.setZoneType("test");
             zone.setCity(city);
             zone.setOccupiedRatio(Math.round(Math.random()*100.0)/100.0);
             zone.setAttractivenessRatio(Math.round(Math.random()*100.0)/100.0);
-            zone.setRequestRatio(Math.round(Math.random()*100.0)/100.0);
             zone.setCordX(x);
             zone.setCordY(y);
             zoneService.addZone(zone);
@@ -113,22 +107,9 @@ public class CarSharingController {
             parking.setIsGuarded(Math.random()>0.5);
             parking.setIsPaid(Math.random()>0.5);
             parking.setIsForHandicapped(Math.random()>0.5);
-            parking.setSpotSize((int) Math.round(Math.random()*5));
 
             parkingService.addParkingLot(parking);
         }
-
-//        for (int i = 0; i < amount*amount*10; i++) {
-//            UserEntity user = new UserEntity();
-//            user.setCarSize((int) Math.round(Math.random()*10)+1);
-//            user.setAge((int) (Math.round(Math.random()*50)+20));
-//            user.setHandicapped(Math.random()>0.75);
-//            user.setName("Jack");
-//            user.setSurname("aaa");
-//            user.setPreferableZone(zones.get((int) Math.round(Math.random()*(zones.size()-1))).getZoneId());
-//
-//            userService.addUser(user);
-//        }
         return HttpStatus.OK;
     }
 

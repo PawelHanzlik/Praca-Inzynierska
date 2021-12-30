@@ -12,7 +12,7 @@ import javax.persistence.*;
 @Builder
 @NoArgsConstructor
 @ToString
-@Table(name = "Zones")
+@Table(name = "Zone")
 public class ZoneEntity {
 
     @Id
@@ -21,10 +21,13 @@ public class ZoneEntity {
     private Long zoneId;
 
     @NotNull
-    private String zoneType;
+    private String city;
 
     @NotNull
-    private String city;
+    private Integer CordX;
+
+    @NotNull
+    private Integer CordY;
 
     @NotNull
     private Double occupiedRatio;
@@ -32,14 +35,6 @@ public class ZoneEntity {
     @NotNull
     private Double attractivenessRatio;
 
-    @NotNull
-    private Double requestRatio;
 
-    @NotNull
-    private int CordX;
-
-    @NotNull
-    private int CordY;
-
-    public long getPriority(){return (Math.round((occupiedRatio-requestRatio)*5))+11;}
+    public long getPriority(){return (Math.round(5*occupiedRatio+attractivenessRatio));}
 }

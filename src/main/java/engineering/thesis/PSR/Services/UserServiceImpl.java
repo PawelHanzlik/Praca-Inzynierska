@@ -55,17 +55,6 @@ public class UserServiceImpl implements UserService {
         }
     }
 
-    @Override
-    public void changeUserCarSize(Long userId, Integer newCarSize) throws NoSuchUserException {
-        Optional<UserEntity> userOptional = this.userRepository.findById(userId);
-        if (userOptional.isEmpty()) {
-            throw new NoSuchUserException();
-        } else {
-            UserEntity user = userOptional.get();
-            user.setCarSize(newCarSize);
-            this.userRepository.save(user);
-        }
-    }
 
     @Override
     public void changeUserPreferableZone(Long userId, Long newZoneId) throws NoSuchUserException, NoSuchZoneException {

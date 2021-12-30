@@ -16,57 +16,13 @@ import java.util.List;
 
 public class Solver {
 
-    /*
-    Co klasa ma robić:
-    W konstruktorze:
-        Klasa otrzymuje dane na temat lokacji użytkownika i otaczających go stref
-        (Strefy w której klient się znajduje i 6 przyległych)
-        Na podstawie zajętości i zapotrzebowania na samochody tych stref oraz preferencji klienta
-        wybieramy klauzule ze zmiennymi opisujące cechy idealnego parkingu.
-        Następnie solver (Idzie na kompromis) wybiera takie wartości zmiennych
-        aby jak najwięcej klauzul było spełnionych.
-    W metodzie:
-        Klasa porównuje parking z klauzulami a następnie zwraca
-        jego przydatność lub ile zmiennych jest niespełnionych
-
-             / \ / \
-            | 2 | 3 |
-           / \ / \ / \
-          | 7 | 1 | 4 |
-           \ / \ / \ /
-            | 6 | 5 |
-             \ / \ /
-    Zmienne
-        zmienna ujemna - zaprzeczenie
-        S1  ..  S7  -   Parking znajduje się w strefie 1-7
-        S8  -   Parking znajduje się w strefie preferowanej przez klienta
-        S9  -   Parking ma conajmniej 10 wolnych miejsc parkingowych
-        S10 -   Parking jest strzeżony
-        S11 -   Parking jest płatny
-        S12 -   Parking jest dla niepełnosprawnych
-        S13 -   Rozmiar parkingu > 5
-    Klauzule
-        U0  -   Należy wybrać co najmniej jedną strefę
-        U1  ..  U7  =   Strefa ma wysokie zapotrzebowanie
-            [x & -1 ..-(x-1) & -(x+1) .. -7]
-        U8  -   Preferowana strefa klienta to ta, którą wskazał solver // to pewnie do wyjebania
-        U9  -   Klient jest niepełnosprawny ->  [12] waga 25
-       -U9  -   Pełnosprawna osoba = [-12] waga 15
-        U10 -   Rozmiar samochodu() >5 -  dużo wolnych miejsc lub duże miejsca [10] waga 20
-       -U10 -   Rozmiar samochodu() <5 =  [-10] waga 10
-        U11 -   Klient jest skąpy =  [-11] waga 15
-       -U11 -   Klient nie jest skąpy = [11] waga 25
-        U12 -   Klient dba o wygodę parkowania =  [10,9] waga 20
-       -U12 -   Klient nie dba o wygodę parkowania = [-9] waga 10
-    */
-
     private final List<Integer> result = new ArrayList<>();
     private final List<Long> zoneIds = new ArrayList<>();
 
     public Solver(List<ZoneEntity> zones, String[] usersChoices) {
 
-        final int MAXVAR = 13;
-        final int NBCLAUSES = zones.size()+1+5;
+        final int MAXVAR = 11;
+        final int NBCLAUSES = zones.size()+9;
 
         int[] searchedZones = new int[zones.size()];
         for (int i = 0; i < zones.size(); i++) {
@@ -128,7 +84,7 @@ public class Solver {
                 for (int t : temp) result.add(t);
                 System.out.println(result);
             }else{
-                throw new Exception("Nierozwiązywale warunki");
+                throw new Exception("Niespełnialna formuła");
             }
         } catch (Exception e){
             e.printStackTrace();
