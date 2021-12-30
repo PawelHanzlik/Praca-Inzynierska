@@ -34,8 +34,8 @@ export class CityComponent implements OnInit {
   ngOnInit(): void {
   }
 
-  public generateData(): void {
-    this.appService.generateData(this.selected.name);
+  public assignCity(): void {
+    this.appService.assignCity(this.selected.name);
   }
 }
 interface city{

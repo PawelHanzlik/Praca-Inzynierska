@@ -76,9 +76,9 @@ public class ZoneServiceImpl implements ZoneService{
     }
 
     @Override
-    public boolean isAdjacent(ZoneEntity zone, int x, int y) {
-        if ((zone.getCordX() <= x + 1 & zone.getCordX() >= x - 1 & zone.getCordY() <= y + 1 & zone.getCordY() >= y) ||
-                (zone.getCordX() == x & zone.getCordY() == y - 1)){
+    public boolean isAdjacent(String city, ZoneEntity zone, int x, int y) {
+        if (((zone.getCordX() <= x + 1 & zone.getCordX() >= x - 1 & zone.getCordY() <= y + 1 & zone.getCordY() >= y) ||
+                (zone.getCordX() == x & zone.getCordY() == y - 1)) && zone.getCity().equals(city)){
             findByCoords(zone.getCordX(),zone.getCordY());
             return true;
         }

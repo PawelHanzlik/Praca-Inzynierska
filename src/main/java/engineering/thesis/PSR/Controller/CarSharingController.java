@@ -21,6 +21,7 @@ public class CarSharingController {
 
     private final ZoneService zoneService;
     private final ParkingLotService parkingService;
+    private String pickedCity = "";
 
     @Autowired
     public CarSharingController(ZoneService zoneService, ParkingLotService parkingLotService){
@@ -37,7 +38,7 @@ public class CarSharingController {
         List<ZoneEntity> zones = new ArrayList<>();
         //wybierz strefy z bazy danych które przylegają do lokacji
         zoneService.getAllZones().forEach(zone -> {
-            if (zoneService.isAdjacent(zone, x, y)) {
+            if (zoneService.isAdjacent(pickedCity,zone, x, y)) {
                 zones.add(zone);
             }
         });
@@ -68,49 +69,48 @@ public class CarSharingController {
         return new ResponseEntity<>(topResults.toString(), HttpStatus.OK);
     }
 
-    @GetMapping("/sfc")
-    public String searchForCar(@RequestParam(value = "name", defaultValue = "World") String name) {
-        return String.format("Hello %s!", name);
-    }
-
-    @GetMapping("/parkCar")
-    public String park(@RequestParam(value = "name", defaultValue = "World") String name) {
-        return String.format("Hello %s!", name);
-    }
-
-    @GetMapping("/takeCar")
-    public String takeCar(@RequestParam(value = "name", defaultValue = "World") String name) {
-        return String.format("Hello %s!", name);
-    }
-
     @GetMapping("/GenerateData")
-    public HttpStatus GenerateZones(@RequestParam(defaultValue = "Kraków") String city) {
+    public HttpStatus GenerateZones() {
 
         int amount = 5;
+        List<String> cities = new ArrayList<>();
+        cities.add("Kraków");
+        cities.add("Warszawa");
+        cities.add("Wrocław");
+        if (zoneService.getAllZones().isEmpty()){
+            for (String city : cities){
+            for (int x = (-1)*amount; x <= amount; x++)
+                    for (int y = (-1)*amount; y <= amount; y++) {
+                    ZoneEntity zone = new ZoneEntity();
+                    zone.setCity(city);
+                    zone.setOccupiedRatio(Math.round(Math.random()*100.0)/100.0);
+                    zone.setAttractivenessRatio(Math.round(Math.random()*100.0)/100.0);
+                    zone.setCordX(x);
+                    zone.setCordY(y);
+                    zoneService.addZone(zone);
+                }
+                List<ZoneEntity> zones = zoneService.getAllZones();
 
-        for (int x = (-1)*amount; x < amount; x++)
-            for (int y = (-1)*amount; y < amount; y++) {
-            ZoneEntity zone = new ZoneEntity();
-            zone.setCity(city);
-            zone.setOccupiedRatio(Math.round(Math.random()*100.0)/100.0);
-            zone.setAttractivenessRatio(Math.round(Math.random()*100.0)/100.0);
-            zone.setCordX(x);
-            zone.setCordY(y);
-            zoneService.addZone(zone);
-        }
-        List<ZoneEntity> zones = zoneService.getAllZones();
+                for (int i = 0; i < amount*amount*10; i++) {
+                    ParkingLotEntity parking = new ParkingLotEntity();
+                    parking.setZoneId(zones.get((int) Math.round(Math.random()*(zones.size()-1))).getZoneId());
+                    parking.setFreeSpaces((int) Math.round(Math.random()*100));
+                    parking.setIsGuarded(Math.random()>0.5);
+                    parking.setIsPaid(Math.random()>0.5);
+                    parking.setIsForHandicapped(Math.random()>0.5);
 
-        for (int i = 0; i < amount*amount*10; i++) {
-            ParkingLotEntity parking = new ParkingLotEntity();
-            parking.setZoneId(zones.get((int) Math.round(Math.random()*(zones.size()-1))).getZoneId());
-            parking.setFreeSpaces((int) Math.round(Math.random()*100));
-            parking.setIsGuarded(Math.random()>0.5);
-            parking.setIsPaid(Math.random()>0.5);
-            parking.setIsForHandicapped(Math.random()>0.5);
-
-            parkingService.addParkingLot(parking);
+                    parkingService.addParkingLot(parking);
+                }
+            }
         }
         return HttpStatus.OK;
     }
+
+    @GetMapping("/AssignCity")
+    public HttpStatus AssignCity(@RequestParam(defaultValue = "Kraków") String city) {
+        this.pickedCity = city;
+        return HttpStatus.OK;
+    }
+
 
 }

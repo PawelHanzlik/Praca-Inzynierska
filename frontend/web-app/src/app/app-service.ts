@@ -14,10 +14,16 @@ export class AppService {
   response = ""
   constructor(private http: HttpClient) { }
 
-  public generateData(city: String): void {
-     this.http.get<String>(`${this.apiServerUrl}/api/maxsat/GenerateData?city=${city}`).subscribe(
+  public generateData(): void {
+     this.http.get<String>(`${this.apiServerUrl}/api/maxsat/GenerateData`).subscribe(
        response => { console.log(response)}
      );
+  }
+
+  public assignCity(city: String): void {
+    this.http.get<String>(`${this.apiServerUrl}/api/maxsat/AssignCity?city=${city}`).subscribe(
+      response => { console.log(response)}
+    );
   }
 
   public solve(usersChoices: String []): void {
