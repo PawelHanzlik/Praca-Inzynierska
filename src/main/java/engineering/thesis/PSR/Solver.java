@@ -1,13 +1,11 @@
 package engineering.thesis.PSR;
 
 import engineering.thesis.PSR.Entities.ParkingLotEntity;
-import engineering.thesis.PSR.Entities.UserEntity;
 import engineering.thesis.PSR.Entities.ZoneEntity;
 import org.sat4j.core.VecInt;
 import org.sat4j.maxsat.WeightedMaxSatDecorator;
 import org.sat4j.pb.PseudoOptDecorator;
 import org.sat4j.specs.ContradictionException;
-import org.sat4j.specs.TimeoutException;
 import org.sat4j.tools.ModelIterator;
 import org.sat4j.tools.OptToSatAdapter;
 
@@ -49,30 +47,37 @@ public class Solver {
         }
 
         try {
-            maxSatSolver.addSoftClause(999999,new VecInt(searchedZones));
-            //U8
+            maxSatSolver.addSoftClause(9999,new VecInt(searchedZones));
+            //U8 handicapped
             if (usersChoices[0].equals("Yes")){
-                maxSatSolver.addSoftClause(10,new VecInt(new int[]{8,10}));
+                maxSatSolver.addSoftClause(30,new VecInt(new int[]{8}));
+                maxSatSolver.addSoftClause(25,new VecInt(new int[]{11}));
             }else{
-                maxSatSolver.addSoftClause(10,new VecInt(new int[]{}));
+                maxSatSolver.addSoftClause(25,new VecInt(new int[]{-8}));
+                maxSatSolver.addSoftClause(20,new VecInt(new int[]{9,-11}));
             }
-            //U9
-            if (usersChoices[3].equals("Yes")){
-                maxSatSolver.addSoftClause(10,new VecInt(new int[]{9,11}));
-            }else{
-                maxSatSolver.addSoftClause(10,new VecInt(new int[]{}));
-            }
-            //U11
+            //U9 paid
             if (usersChoices[1].equals("Yes")){
-                maxSatSolver.addSoftClause(15,new VecInt(new int[]{-11}));
+                maxSatSolver.addSoftClause(20,new VecInt(new int[]{-9}));
+                maxSatSolver.addSoftClause(15,new VecInt(new int[]{-10,-11}));
             }else{
-                maxSatSolver.addSoftClause(20,new VecInt(new int[]{11}));
+                maxSatSolver.addSoftClause(35,new VecInt(new int[]{9}));
+                maxSatSolver.addSoftClause(30,new VecInt(new int[]{11}));
             }
-            //U12
-            if (usersChoices[3].equals("Yes")){
-                maxSatSolver.addSoftClause(20,new VecInt(new int[]{10,9}));
+            //U10 guarded
+            if (usersChoices[2].equals("Yes")){
+                maxSatSolver.addSoftClause(30,new VecInt(new int[]{10}));
+                maxSatSolver.addSoftClause(20,new VecInt(new int[]{9}));
             }else{
-                maxSatSolver.addSoftClause(10,new VecInt(new int[]{-9}));
+                maxSatSolver.addSoftClause(20,new VecInt(new int[]{-10}));
+                maxSatSolver.addSoftClause(15,new VecInt(new int[]{-11}));
+            }
+            //U11 more than 15 free spaces
+            if (usersChoices[3].equals("Yes")){
+                maxSatSolver.addSoftClause(15,new VecInt(new int[]{11}));
+                maxSatSolver.addSoftClause(10,new VecInt(new int[]{9,10}));
+            }else{
+                maxSatSolver.addSoftClause(25,new VecInt(new int[]{-11}));
             }
         } catch (ContradictionException exception) {
             exception.printStackTrace();
@@ -100,17 +105,17 @@ public class Solver {
         if (index >(-1) && result.get(index)>0)
             score+=10;
 
-        //S12 - niepełnosprawni
-        if (result.contains(12) && parking.getIsForHandicapped())
+        //S8 - niepełnosprawni
+        if (result.contains(8) && parking.getIsForHandicapped())
             score++;
-        else if (result.contains(-12) && !parking.getIsForHandicapped())
-            score++;
-
-        //S9 - 10 wolnych miejsc
-        if (result.contains(9) && parking.getFreeSpaces() > 10)
+        else if (result.contains(-8) && !parking.getIsForHandicapped())
             score++;
 
-        else if (result.contains(-9) && parking.getFreeSpaces() < 10)
+        //S9 - paid
+        if (result.contains(9) && parking.getIsPaid())
+            score++;
+
+        else if (result.contains(-9) && !parking.getIsPaid())
             score++;
 
         //S10 - Guarded
@@ -120,11 +125,11 @@ public class Solver {
         else if (result.contains(-10) && !parking.getIsGuarded())
             score++;
 
-        //S11 - Płatny
-        if(result.contains(11) && parking.getIsPaid())
+        //S11 - free spaces
+        if(result.contains(11) && parking.getFreeSpaces() >= 15)
             score++;
 
-        else if(result.contains(-11) && !parking.getIsPaid())
+        else if(result.contains(-11) && parking.getFreeSpaces() < 15)
             score++;
 
 
