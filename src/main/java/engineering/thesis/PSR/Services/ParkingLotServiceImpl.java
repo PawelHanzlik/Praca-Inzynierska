@@ -1,11 +1,14 @@
 package engineering.thesis.PSR.Services;
 
 import engineering.thesis.PSR.Entities.ParkingLotEntity;
+import engineering.thesis.PSR.Entities.ZoneEntity;
 import engineering.thesis.PSR.Exceptions.Classes.NoSuchParkingLotException;
 import engineering.thesis.PSR.Repositories.ParkingLotRepository;
+import org.apache.commons.math3.util.Precision;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
@@ -60,5 +63,18 @@ public class ParkingLotServiceImpl implements ParkingLotService{
             parkingLot.setFreeSpaces(newOccupancy);
             this.parkingLotRepository.save(parkingLot);
         }
+    }
+
+    @Override
+    public List<Double> generateCords(ZoneEntity zone){
+        double radius = 0.5*Math.sqrt(3)/2;
+        double theta = 2*Math.PI*Math.random();
+        double len = Math.sqrt(Math.random())*radius;
+        double x = Precision.round(zone.getCordX() + len * Math.cos(theta),2);
+        double y = Precision.round(zone.getCordX() + len * Math.sin(theta),2);
+        List<Double> cords = new ArrayList<>();
+        cords.add(x);
+        cords.add(y);
+        return cords;
     }
 }

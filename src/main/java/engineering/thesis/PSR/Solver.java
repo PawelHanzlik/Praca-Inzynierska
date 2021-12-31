@@ -19,8 +19,8 @@ public class Solver {
 
     public Solver(List<ZoneEntity> zones, String[] usersChoices) {
 
-        final int MAXVAR = 11;
-        final int NBCLAUSES = zones.size()+9;
+        final int MAX_VAR = 11;
+        final int NB_CLAUSES = zones.size()+9;
 
         int[] searchedZones = new int[zones.size()];
         for (int i = 0; i < zones.size(); i++) {
@@ -32,8 +32,8 @@ public class Solver {
         ModelIterator solver = new ModelIterator(new OptToSatAdapter(
                 new PseudoOptDecorator(maxSatSolver)));
 
-        solver.newVar(MAXVAR);
-        solver.setExpectedNumberOfClauses(NBCLAUSES);
+        solver.newVar(MAX_VAR);
+        solver.setExpectedNumberOfClauses(NB_CLAUSES);
         for (int i=0;i<zones.size();i++) {
             int [] clause = new int[1];
             clause[0] =(-1)*(i+1);
@@ -89,7 +89,7 @@ public class Solver {
                 for (int t : temp) result.add(t);
                 System.out.println(result);
             }else{
-                throw new Exception("Niespełnialna formuła");
+                throw new Exception("Unsatisfiable formula");
             }
         } catch (Exception e){
             e.printStackTrace();
@@ -101,11 +101,11 @@ public class Solver {
 
         long zone =parking.getZoneId();
         int index = zoneIds.indexOf(zone);
-        //strefa
+        // is in selected zone
         if (index >(-1) && result.get(index)>0)
             score+=10;
 
-        //S8 - niepełnosprawni
+        //S8 - for disabled
         if (result.contains(8) && parking.getIsForHandicapped())
             score++;
         else if (result.contains(-8) && !parking.getIsForHandicapped())

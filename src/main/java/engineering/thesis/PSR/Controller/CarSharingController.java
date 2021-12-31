@@ -32,11 +32,11 @@ public class CarSharingController {
 
 
     @GetMapping("/sfps")
-    public ResponseEntity<String> searchForParkingSpot(@RequestParam(value = "Lat", defaultValue = "0") int x, @RequestParam(value = "Lon", defaultValue = "0") int y,
+    public ResponseEntity<String> searchForParkingSpot(@RequestParam(value = "CordX", defaultValue = "0") int x, @RequestParam(value = "CordY", defaultValue = "0") int y,
                                                        @RequestParam()String [] usersChoices) {
 
+        System.out.println(x+" "+y);
         List<ZoneEntity> zones = new ArrayList<>();
-        //wybierz strefy z bazy danych które przylegają do lokacji
         zoneService.getAllZones().forEach(zone -> {
             if (zoneService.isAdjacent(pickedCity,zone, x, y)) {
                 zones.add(zone);
@@ -64,36 +64,40 @@ public class CarSharingController {
                 results.add(new ZoneTuple(parking.getParkingLotId(),solver.test(parking))));
 
         results.sort(Comparator.comparingInt(ZoneTuple::getScore).reversed());
-        System.out.println(results);
         List<ZoneTuple> topResults = results.subList(0,3);
+        System.out.println(topResults);
         return new ResponseEntity<>(topResults.toString(), HttpStatus.OK);
     }
 
     @GetMapping("/GenerateData")
     public HttpStatus GenerateZones() {
 
-        int amount = 5;
         List<String> cities = new ArrayList<>();
         cities.add("Kraków");
         cities.add("Warszawa");
         cities.add("Wrocław");
         if (zoneService.getAllZones().isEmpty()){
-            for (String city : cities){
-            for (int x = (-1)*amount; x <= amount; x++)
-                    for (int y = (-1)*amount; y <= amount; y++) {
-                    ZoneEntity zone = new ZoneEntity();
-                    zone.setCity(city);
-                    zone.setOccupiedRatio(Math.round(Math.random()*100.0)/100.0);
-                    zone.setAttractivenessRatio(Math.round(Math.random()*100.0)/100.0);
-                    zone.setCordX(x);
-                    zone.setCordY(y);
-                    zoneService.addZone(zone);
-                }
-                List<ZoneEntity> zones = zoneService.getAllZones();
-
-                for (int i = 0; i < amount*amount*10; i++) {
+            for (String city : cities) {
+                for (int x = -4; x <= 5; x++)
+                    for (int y = -3; y <= 4; y++) {
+                        ZoneEntity zone = new ZoneEntity();
+                        zone.setCity(city);
+                        zone.setOccupiedRatio(Math.round(Math.random() * 100.0) / 100.0);
+                        zone.setAttractivenessRatio(Math.round(Math.random() * 100.0) / 100.0);
+                        zone.setCordX(x);
+                        zone.setCordY(y);
+                        zoneService.addZone(zone);
+                    }
+            }
+            List<ZoneEntity> zones = zoneService.getAllZones();
+            for (ZoneEntity zone: zones){
+                int count = Integer.parseInt(String.valueOf(Math.round(Math.random()*4)));
+                for (int i = 0; i < count; i++) {
                     ParkingLotEntity parking = new ParkingLotEntity();
-                    parking.setZoneId(zones.get((int) Math.round(Math.random()*(zones.size()-1))).getZoneId());
+                    parking.setZoneId(zone.getZoneId());
+                    List<Double> cords = parkingService.generateCords(zone);
+                    parking.setCordX(cords.get(0));
+                    parking.setCordY(cords.get(1));
                     parking.setFreeSpaces((int) Math.round(Math.random()*100));
                     parking.setIsGuarded(Math.random()>0.5);
                     parking.setIsPaid(Math.random()>0.5);

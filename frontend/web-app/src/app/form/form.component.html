@@ -1,39 +1,42 @@
 <div id="form">
 
-<!--  <label class="centered" id="streetNameTitle" for="streetName">Insert destination location:</label>-->
-<!--  <input class="centered" type="text" id="streetName" name="streetName">-->
+  <label class="centered" id="CordsTitle" for="CordX">Insert destination location:</label>
+  <label class="centered" id="CordXTitle" for="CordX">CordX</label>
+  <label class="centered" id="CordYTitle" for="CordY">CordY</label>
+  <input class="centered" type="number" min="-4" [defaultValue]="0" max="5" id="CordX" name="CordX" (input)="fooX($event.target)" (keydown)="getPreviousValueX($event.target)" >
+  <input class="centered" type="number" min="-3" [defaultValue]="0" max="4" id="CordY" name="CordY" (input)="fooY($event.target)" (keydown)="getPreviousValueY($event.target)"  >
 
   <p class="centered" id="disabledTitle">Do you want a parking spot for disabled people?</p>
 
   <input class="centered" type="radio" id="disabledYes" name="disabled" (change)="disabledNo.value=''" (click)="disabledYes.value='Yes'" checked>
   <label id="disabledYesLabel" class="centered" for="disabledYes">Yes</label>
 
-  <input class="centered" type="radio" id="disabledNo" name="disabled" (change)="disabledYes.value=''"(click)="disabledNo.value='No'">
+  <input class="centered" type="radio" id="disabledNo" name="disabled" (change)="disabledYes.value=''" (click)="disabledNo.value='No'">
   <label id="disabledNoLabel" class="centered" for="disabledNo">No</label>
 
-  <p class="centered" id="freeSpacesTitle">Do you want a parking spot with at least 10 free spaces?</p>
+  <p class="centered" id="paidTitle">Do you want a paid parking?</p>
+
+  <input class="centered" type="radio" id="paidYes" name="paid" (change)="paidNo.value=''" (click)="paidYes.value='Yes'" checked>
+  <label id="paidYesLabel" class="centered" for="paidYes">Yes</label>
+
+  <input class="centered" type="radio" id="paidNo" name="paid" (change)="paidYes.value=''" (click)="paidNo.value='No'">
+  <label id="paidNoLabel" class="centered" for="paidNo">No</label>
+
+  <p class="centered" id="guardedTitle">Do you want a guarded parking spot?</p>
+
+  <input class="centered" type="radio" id="guardedYes" name="guarded" (change)="guardedNo.value=''" (click)="guardedYes.value='Yes'" checked>
+  <label id="guardedYesLabel" class="centered" for="guardedYes">Yes</label>
+
+  <input class="centered" type="radio" id="guardedNo" name="guarded" (change)="guardedYes.value=''" (click)="guardedNo.value='No'">
+  <label id="guardedNoLabel" class="centered" for="guardedNo">No</label>
+
+  <p class="centered" id="freeSpacesTitle">Do you want a parking with at least 15 spots?</p>
 
   <input class="centered" type="radio" id="freeSpacesYes" name="freeSpaces" (change)="freeSpacesNo.value=''" (click)="freeSpacesYes.value='Yes'" checked>
   <label id="freeSpacesYesLabel" class="centered" for="freeSpacesYes">Yes</label>
 
   <input class="centered" type="radio" id="freeSpacesNo" name="freeSpaces" (change)="freeSpacesYes.value=''" (click)="freeSpacesNo.value='No'">
   <label id="freeSpacesNoLabel" class="centered" for="freeSpacesNo">No</label>
-
-  <p class="centered" id="guardedTitle">Do you want a guarded parking spot?</p>
-
-  <input class="centered" type="radio" id="guardedYes" name="guarded" (change)="guardedNo.value=''"(click)="guardedYes.value='Yes'" checked>
-  <label id="guardedYesLabel" class="centered" for="guardedYes">Yes</label>
-
-  <input class="centered" type="radio" id="guardedNo" name="guarded" (change)="guardedYes.value=''" (click)="guardedNo.value='No'">
-  <label id="guardedNoLabel" class="centered" for="guardedNo">No</label>
-
-  <p class="centered" id="spotSizeTitle">Do you want a large parking spot?</p>
-
-  <input class="centered" type="radio" id="spotSizeYes" name="spotSize" (change)="spotSizeNo.value=''" (click)="spotSizeYes.value='Yes'" checked>
-  <label id="spotSizeYesLabel" class="centered" for="spotSizeYes">Yes</label>
-
-  <input class="centered" type="radio" id="spotSizeNo" name="spotSize" (change)="spotSizeYes.value=''" (click)="spotSizeNo.value='No'">
-  <label id="spotSizeNoLabel" class="centered" for="spotSizeNo">No</label>
 
   <button id="button" class="button">
     <a (click)="solve()" routerLink="/result">SUBMIT</a>

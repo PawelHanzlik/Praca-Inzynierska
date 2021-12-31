@@ -5,15 +5,30 @@
   transform: translate(-50%, -50%);
   font-size: 15pt;
 }
-#streetNameTitle{
+#CordsTitle{
   position: absolute;
   top: 23%;
   left: 49.8%;
 }
-#streetName{
+#CordX{
   position: absolute;
   top: 27%;
-  left: 49.8%;
+  left: 45.8%;
+}
+#CordXTitle{
+  position: absolute;
+  top: 27%;
+  left: 40%;
+}
+#CordY{
+  position: absolute;
+  top: 27%;
+  left: 53.8%;
+}
+#CordYTitle{
+  position: absolute;
+  top: 27%;
+  left: 59.5%;
 }
 #disabledTitle{
   position: absolute;
@@ -40,27 +55,27 @@
   top: 36%;
   left: 59%;
 }
-#freeSpacesTitle{
+#paidTitle{
   position: absolute;
   top: 37%;
-  left: 51.8%;
+  left: 44.8%;
 }
-#freeSpacesYes{
+#paidYes{
   position: absolute;
   top: 43%;
   left: 40%;
 }
-#freeSpacesYesLabel{
+#paidYesLabel{
   position: absolute;
   top: 43%;
   left: 42%;
 }
-#freeSpacesNo{
+#paidNo{
   position: absolute;
   top: 43%;
   left: 57%;
 }
-#freeSpacesNoLabel{
+#paidNoLabel{
   position: absolute;
   top: 43%;
   left: 59%;
@@ -90,27 +105,27 @@
   top: 50%;
   left: 59%;
 }
-#spotSizeTitle{
+#freeSpacesTitle{
   position: absolute;
   top: 51%;
-  left: 46.1%;
+  left: 48.9%;
 }
-#spotSizeYes{
+#freeSpacesYes{
   position: absolute;
   top: 57%;
   left: 40%;
 }
-#spotSizeYesLabel{
+#freeSpacesYesLabel{
   position: absolute;
   top: 57%;
   left: 42%;
 }
-#spotSizeNo{
+#freeSpacesNo{
   position: absolute;
   top: 57%;
   left: 57%;
 }
-#spotSizeNoLabel{
+#freeSpacesNoLabel{
   position: absolute;
   top: 57%;
   left: 59%;

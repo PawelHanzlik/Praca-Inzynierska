@@ -8,27 +8,39 @@ import {AppService} from "../app-service";
 })
 export class FormComponent implements OnInit {
 
+  cordX: cord;
+  cordY: cord;
   disabledYes: form;
   disabledNo: form;
-  freeSpacesYes: form;
-  freeSpacesNo: form;
+  paidYes: form;
+  paidNo: form;
   guardedYes: form;
   guardedNo: form;
-  spotSizeYes: form;
-  spotSizeNo: form;
+  freeSpacesYes: form;
+  freeSpacesNo: form;
   forms: String[];
+  previousX : number;
+  previousY : number;
   constructor(private appService: AppService) {
     this.forms = []
+    this.previousX = 0
+    this.previousY = 0
+    this.cordX = {
+      value: 0
+    }
+    this.cordY = {
+      value: 0
+    }
     this.disabledYes = {
       value: "Yes"
     }
     this.disabledNo = {
       value: "No"
     }
-    this.freeSpacesYes = {
+    this.paidYes = {
       value: "Yes"
     }
-    this.freeSpacesNo = {
+    this.paidNo = {
       value: "No"
     }
     this.guardedYes = {
@@ -37,15 +49,30 @@ export class FormComponent implements OnInit {
     this.guardedNo = {
       value: "No"
     }
-    this.spotSizeYes = {
+    this.freeSpacesYes = {
       value: "Yes"
     }
-    this.spotSizeNo = {
+    this.freeSpacesNo = {
       value: "No"
     }
   }
 
   ngOnInit(): void {
+  }
+
+  fooX(value: any) {
+    this.cordX.value = value.value;
+  }
+
+  getPreviousValueX(value: any) {
+    this.previousX = value.value;
+  }
+  fooY(value: any) {
+    this.cordY.value = value.value;
+  }
+
+  getPreviousValueY(value: any) {
+    this.previousY = value.value;
   }
 
   public solve(): void {
@@ -55,11 +82,11 @@ export class FormComponent implements OnInit {
     else
       this.forms.push(this.disabledNo.value)
 
-    if (this.freeSpacesYes.value=="Yes"){
-      this.forms.push(this.freeSpacesYes.value)
+    if (this.paidYes.value=="Yes"){
+      this.forms.push(this.paidYes.value)
     }
     else
-      this.forms.push(this.freeSpacesNo.value)
+      this.forms.push(this.paidNo.value)
 
     if (this.guardedYes.value=="Yes"){
       this.forms.push(this.guardedYes.value)
@@ -67,17 +94,21 @@ export class FormComponent implements OnInit {
     else
       this.forms.push(this.guardedNo.value)
 
-    if (this.spotSizeYes.value=="Yes"){
-      this.forms.push(this.spotSizeYes.value)
+    if (this.freeSpacesYes.value=="Yes"){
+      this.forms.push(this.freeSpacesYes.value)
     }
     else
-      this.forms.push(this.spotSizeNo.value)
+      this.forms.push(this.freeSpacesNo.value)
 
-    this.appService.solve(this.forms);
+    console.log(this.cordY.value+" "+this.cordX.value)
+    this.appService.solve(this.cordX.value,this.cordY.value,this.forms);
   }
 
 
 }
 interface form{
   value: String;
+}
+interface cord{
+  value: number;
 }

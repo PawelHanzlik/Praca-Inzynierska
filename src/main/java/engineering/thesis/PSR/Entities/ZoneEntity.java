@@ -36,5 +36,5 @@ public class ZoneEntity {
     private Double attractivenessRatio;
 
 
-    public long getPriority(){return (Math.round(5*occupiedRatio+attractivenessRatio));}
+    public long getPriority(){return (Math.round(1/(50*occupiedRatio+10*attractivenessRatio)*1000));}
 }

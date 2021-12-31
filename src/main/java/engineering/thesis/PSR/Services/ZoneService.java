@@ -14,5 +14,4 @@ public interface ZoneService {
     void changeZoneOccupiedRatio(Long zoneId, Double newOccupiedRatio) throws NoSuchZoneException;
     void changeZoneAttractivenessRatio(Long zoneId, Double newAttractivenessRatio) throws NoSuchZoneException;
     boolean isAdjacent(String city,ZoneEntity zone, int x, int y);
-    void findByCoords(int x, int y);
 }

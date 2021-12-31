@@ -26,8 +26,8 @@ export class AppService {
     );
   }
 
-  public solve(usersChoices: String []): void {
-    this.http.get<String>(`${this.apiServerUrl}/api/maxsat/sfps?usersChoices=${usersChoices}`, this.requestOptions).subscribe(
+  public solve(cordX: Number, cordY: Number,usersChoices: String []): void {
+    this.http.get<String>(`${this.apiServerUrl}/api/maxsat/sfps?CordX=${cordX}&CordY=${cordY}&usersChoices=${usersChoices}`, this.requestOptions).subscribe(
       response => { console.log(response) ; this.response = String(response)}
     );
   }
