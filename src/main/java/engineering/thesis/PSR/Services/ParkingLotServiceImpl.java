@@ -71,7 +71,7 @@ public class ParkingLotServiceImpl implements ParkingLotService{
         double theta = 2*Math.PI*Math.random();
         double len = Math.sqrt(Math.random())*radius;
         double x = Precision.round(zone.getCordX() + len * Math.cos(theta),2);
-        double y = Precision.round(zone.getCordX() + len * Math.sin(theta),2);
+        double y = Precision.round(zone.getCordY() + len * Math.sin(theta),2);
         List<Double> cords = new ArrayList<>();
         cords.add(x);
         cords.add(y);

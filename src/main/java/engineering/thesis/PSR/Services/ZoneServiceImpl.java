@@ -75,10 +75,32 @@ public class ZoneServiceImpl implements ZoneService{
         }
     }
 
+//    @Override
+//    public boolean isAdjacent(String city, ZoneEntity zone, int x, int y) {
+//        return ((zone.getCordX() <= x + 1 && zone.getCordX() >= x - 1 && zone.getCordY() <= y + 1 && zone.getCordY() >= y) ||
+//                (zone.getCordX() == x && zone.getCordY() == y - 1)) && zone.getCity().equals(city);
+//    }
+
     @Override
     public boolean isAdjacent(String city, ZoneEntity zone, int x, int y) {
-        return ((zone.getCordX() <= x + 1 & zone.getCordX() >= x - 1 & zone.getCordY() <= y + 1 & zone.getCordY() >= y) ||
-                (zone.getCordX() == x & zone.getCordY() == y - 1)) && zone.getCity().equals(city);
+        if(x%2 == 0){
+            return ((zone.getCordX() == x - 1 && zone.getCordY() == y) ||
+                    (zone.getCordX() == x - 1 && zone.getCordY() == y + 1) ||
+                    (zone.getCordX() == x && zone.getCordY() == y - 1) ||
+                    (zone.getCordX() == x && zone.getCordY() == y) ||
+                    (zone.getCordX() == x && zone.getCordY() == y + 1) ||
+                    (zone.getCordX() == x + 1 && zone.getCordY() == y) ||
+                    (zone.getCordX() == x + 1 && zone.getCordY() == y + 1)) && zone.getCity().equals(city);
+        }
+        else{
+            return ((zone.getCordX() == x - 1 && zone.getCordY() == y) ||
+                    (zone.getCordX() == x - 1 && zone.getCordY() == y - 1) ||
+                    (zone.getCordX() == x && zone.getCordY() == y - 1) ||
+                    (zone.getCordX() == x && zone.getCordY() == y) ||
+                    (zone.getCordX() == x && zone.getCordY() == y + 1) ||
+                    (zone.getCordX() == x + 1 && zone.getCordY() == y) ||
+                    (zone.getCordX() == x + 1 && zone.getCordY() == y - 1)) && zone.getCity().equals(city);
+        }
     }
 
 }

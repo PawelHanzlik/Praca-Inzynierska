@@ -35,7 +35,6 @@ public class CarSharingController {
     public ResponseEntity<String> searchForParkingSpot(@RequestParam(value = "CordX", defaultValue = "0") int x, @RequestParam(value = "CordY", defaultValue = "0") int y,
                                                        @RequestParam()String [] usersChoices) {
 
-        System.out.println(x+" "+y);
         List<ZoneEntity> zones = new ArrayList<>();
         zoneService.getAllZones().forEach(zone -> {
             if (zoneService.isAdjacent(pickedCity,zone, x, y)) {
@@ -92,7 +91,7 @@ public class CarSharingController {
             List<ZoneEntity> zones = zoneService.getAllZones();
             for (ZoneEntity zone: zones){
                 int count = Integer.parseInt(String.valueOf(Math.round(Math.random()*4)));
-                for (int i = 0; i < count; i++) {
+                for (int i = 0; i <= count; i++) {
                     ParkingLotEntity parking = new ParkingLotEntity();
                     parking.setZoneId(zone.getZoneId());
                     List<Double> cords = parkingService.generateCords(zone);
