@@ -58,11 +58,11 @@ public class Solver {
             }
             //U9 paid
             if (usersChoices[1].equals("Yes")){
-                maxSatSolver.addSoftClause(20,new VecInt(new int[]{-9}));
-                maxSatSolver.addSoftClause(15,new VecInt(new int[]{-10,-11}));
-            }else{
                 maxSatSolver.addSoftClause(35,new VecInt(new int[]{9}));
                 maxSatSolver.addSoftClause(30,new VecInt(new int[]{11}));
+            }else{
+                maxSatSolver.addSoftClause(20,new VecInt(new int[]{-9}));
+                maxSatSolver.addSoftClause(15,new VecInt(new int[]{-10,-11}));
             }
             //U10 guarded
             if (usersChoices[2].equals("Yes")){
