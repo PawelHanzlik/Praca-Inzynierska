@@ -1,8 +1,12 @@
 package engineering.thesis.PSR.Controller;
 
 import engineering.thesis.PSR.Entities.ParkingLotEntity;
+import engineering.thesis.PSR.Entities.TripEntity;
+import engineering.thesis.PSR.Entities.UserHistoryEntity;
 import engineering.thesis.PSR.Entities.ZoneEntity;
 import engineering.thesis.PSR.Services.ParkingLotService;
+import engineering.thesis.PSR.Services.TripService;
+import engineering.thesis.PSR.Services.UserHistoryService;
 import engineering.thesis.PSR.Services.ZoneService;
 import engineering.thesis.PSR.Solver;
 import lombok.Getter;
@@ -21,12 +25,16 @@ public class CarSharingController {
 
     private final ZoneService zoneService;
     private final ParkingLotService parkingService;
+    private final TripService tripService;
+    private final UserHistoryService userHistoryService;
     private String pickedCity = "";
 
     @Autowired
-    public CarSharingController(ZoneService zoneService, ParkingLotService parkingLotService){
+    public CarSharingController(ZoneService zoneService, ParkingLotService parkingLotService, TripService tripService, UserHistoryService userHistoryService){
         this.zoneService = zoneService;
         this.parkingService = parkingLotService;
+        this.tripService = tripService;
+        this.userHistoryService = userHistoryService;
     }
 
 
@@ -115,5 +123,13 @@ public class CarSharingController {
         return HttpStatus.OK;
     }
 
+    @GetMapping("/triphistory")
+    public List<TripEntity> tripHistory(@RequestParam Long user) {
+        return tripService.getTrips(user);
+    }
 
+    @GetMapping("/userhistory")
+    public List<UserHistoryEntity> userHistory(@RequestParam Long user) {
+        return userHistoryService.getUserHistories(user);
+    }
 }
