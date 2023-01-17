@@ -1,0 +1,23 @@
+* {
+    box-sizing: border-box;
+}
+
+.create-form {
+    width: 20em;
+    margin: 6em auto;    
+}
+
+form {
+    width: 20em;
+}
+
+.create-form input {
+    width: 20em;
+    padding: 0.5em;
+    margin: 0.5em;
+}
+
+.back {
+    width: 20em;
+    margin: 3em auto;
+}

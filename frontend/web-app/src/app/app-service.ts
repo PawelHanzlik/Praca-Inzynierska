@@ -1,7 +1,15 @@
 import { Injectable } from '@angular/core';
 import {HttpClient} from "@angular/common/http";
 import {environment} from "../environments/environment";
+import { Observable } from 'rxjs';
 
+export interface User {
+  userId: number;
+  preferableZone: number;
+  name: string;
+  surname: string;
+  age: number;
+}
 @Injectable({
   providedIn: 'root'
 })
@@ -30,5 +38,15 @@ export class AppService {
     this.http.get<String>(`${this.apiServerUrl}/api/maxsat/sfps?CordX=${cordX}&CordY=${cordY}&usersChoices=${usersChoices}`, this.requestOptions).subscribe(
       response => { console.log(response) ; this.response = String(response)}
     );
+  }
+
+  public createUser(value: any): void {
+    this.http.get<String>(`${this.apiServerUrl}/api/maxsat/createUser?name=${value.name}&surname=${value.surname}&age=${value.age}&preferableZone=${value.preferableZone}`, this.requestOptions).subscribe(
+      response => { console.log(response) ; this.response = String(response)}
+    );
+  }
+
+  public getUsers(): Observable<User[]> {
+    return this.http.get<User[]>(`${this.apiServerUrl}/api/maxsat/users`);
   }
 }

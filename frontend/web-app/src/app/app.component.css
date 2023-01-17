@@ -16,12 +16,7 @@
   transform: translate(-50%, -50%);
   font-size: 20pt;
 }
-.button {
-  position: absolute;
-  top: 38%;
-  right: 35%;
-  font-size: 20pt;
-}
+
 #select{
   font-size: 20pt;
   margin: 200% 0 100% 0;

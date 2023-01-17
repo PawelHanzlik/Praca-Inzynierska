@@ -1,6 +1,13 @@
 #buttonText{
   font-size: 15pt;
-  position: absolute;
-  top: 36%;
-  left: 42%;
+}
+
+.center {
+  width: 20em;
+  margin: 4em auto;
+}
+
+.button {
+  width: 100%;
+  margin: 1em;
 }

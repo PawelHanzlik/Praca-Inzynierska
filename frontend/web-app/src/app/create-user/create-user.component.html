@@ -1,0 +1,17 @@
+<div class="create-form">
+    <form [formGroup]="form" (submit)="onSubmit()">
+        <input type="text" formControlName="name" placeholder="Imię" />
+
+        <input type="text" formControlName="surname" placeholder="Nazwisko" />
+
+        <input type="text" formControlName="age" placeholder="Wiek" />
+
+        <input type="text" formControlName="preferableZone" placeholder="Preferowana strefa" />
+
+        <input type="submit" value="Dodaj" />
+    </form>
+
+    <a routerLink="/">
+        <button class="back">Powrót</button>
+    </a>
+</div>

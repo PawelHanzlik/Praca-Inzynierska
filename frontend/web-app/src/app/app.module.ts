@@ -10,8 +10,10 @@ import { HeaderComponent } from './header/header.component';
 import { MainPageComponent } from './main-page/main-page.component';
 import { FooterComponent } from './footer/footer.component';
  import {HttpClientModule} from "@angular/common/http";
- import {FormsModule} from "@angular/forms";
+ import {FormsModule, ReactiveFormsModule} from "@angular/forms";
  import {AppService} from "./app-service";
+import { CreateUserComponent } from './create-user/create-user.component';
+import { SelectUserComponent } from './select-user/select-user.component';
 
 @NgModule({
   declarations: [
@@ -21,13 +23,16 @@ import { FooterComponent } from './footer/footer.component';
     ResultComponent,
     HeaderComponent,
     MainPageComponent,
-    FooterComponent
+    FooterComponent,
+    CreateUserComponent,
+    SelectUserComponent
   ],
   imports: [
     BrowserModule,
     AppRoutingModule,
     HttpClientModule,
-    FormsModule
+    FormsModule,
+    ReactiveFormsModule
   ],
   providers: [AppService],
   bootstrap: [AppComponent]

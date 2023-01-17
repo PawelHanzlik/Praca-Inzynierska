@@ -2,11 +2,13 @@ package engineering.thesis.PSR.Controller;
 
 import engineering.thesis.PSR.Entities.ParkingLotEntity;
 import engineering.thesis.PSR.Entities.TripEntity;
+import engineering.thesis.PSR.Entities.UserEntity;
 import engineering.thesis.PSR.Entities.UserHistoryEntity;
 import engineering.thesis.PSR.Entities.ZoneEntity;
 import engineering.thesis.PSR.Services.ParkingLotService;
 import engineering.thesis.PSR.Services.TripService;
 import engineering.thesis.PSR.Services.UserHistoryService;
+import engineering.thesis.PSR.Services.UserService;
 import engineering.thesis.PSR.Services.ZoneService;
 import engineering.thesis.PSR.Solver;
 import lombok.Getter;
@@ -27,14 +29,22 @@ public class CarSharingController {
     private final ParkingLotService parkingService;
     private final TripService tripService;
     private final UserHistoryService userHistoryService;
+    private final UserService userService;
     private String pickedCity = "";
 
     @Autowired
-    public CarSharingController(ZoneService zoneService, ParkingLotService parkingLotService, TripService tripService, UserHistoryService userHistoryService){
+    public CarSharingController(
+        ZoneService zoneService, 
+        ParkingLotService parkingLotService, 
+        TripService tripService, 
+        UserHistoryService userHistoryService,
+        UserService userService
+        ){
         this.zoneService = zoneService;
         this.parkingService = parkingLotService;
         this.tripService = tripService;
         this.userHistoryService = userHistoryService;
+        this.userService = userService;
     }
 
 
@@ -131,5 +141,26 @@ public class CarSharingController {
     @GetMapping("/userhistory")
     public List<UserHistoryEntity> userHistory(@RequestParam Long user) {
         return userHistoryService.getUserHistories(user);
+    }
+
+    @GetMapping("/createUser")
+    public void createUser(
+        @RequestParam Long preferableZone, 
+        @RequestParam String name,
+        @RequestParam String surname,
+        @RequestParam int age) {
+            var user = new UserEntity();
+
+            user.setAge(age);
+            user.setSurname(surname);
+            user.setName(name);
+            user.setPreferableZone(preferableZone);
+
+            this.userService.addUser(user);
+        }
+
+    @GetMapping("/users")
+    public List<UserEntity> getUsers() {
+        return this.userService.getAllUsers();
     }
 }

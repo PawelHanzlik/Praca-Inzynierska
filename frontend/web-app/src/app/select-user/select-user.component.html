@@ -1,0 +1,7 @@
+<div class="select-user">
+    <a routerLink="/city">
+        <button *ngFor="let user of users">
+            {{user.name}} {{user.surname}}
+        </button>
+    </a>
+</div>
