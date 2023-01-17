@@ -32,4 +32,7 @@ public class TripEntity {
 
     @NotNull
     private Double destinationAttractiveness;
+
+    @NotNull
+    private Double destinationOccupiedRatio;
 }
