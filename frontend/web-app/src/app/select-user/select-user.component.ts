@@ -16,4 +16,8 @@ export class SelectUserComponent implements OnInit {
     console.log(this.appService.getUsers().subscribe(res => this.users = res))
   }
 
+  saveUser(userId: number){
+    localStorage.setItem("userId", String(userId))
+  }
+
 }

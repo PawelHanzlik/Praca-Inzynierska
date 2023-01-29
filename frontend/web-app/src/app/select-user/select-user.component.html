@@ -1,6 +1,6 @@
 <div class="select-user">
     <a routerLink="/city">
-        <button *ngFor="let user of users">
+        <button *ngFor="let user of users" (click)="saveUser(user.userId)">
             {{user.name}} {{user.surname}}
         </button>
     </a>

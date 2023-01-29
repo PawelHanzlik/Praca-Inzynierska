@@ -9,9 +9,11 @@ import java.util.List;
 @Service
 public class TripServiceImpl implements TripService{
     private final TripRepository tripRepository;
+    private final UserService userService;
 
-    public TripServiceImpl(TripRepository tripRepository) {
+    public TripServiceImpl(TripRepository tripRepository, UserService userService) {
         this.tripRepository = tripRepository;
+        this.userService = userService;
     }
 
     @Override
@@ -20,8 +22,10 @@ public class TripServiceImpl implements TripService{
     }
 
     @Override
-    public void addTrip(TripEntity trip) {
-        tripRepository.save(trip);
+    public void addTrip(TripEntity trip, Long userId) {
+        TripEntity savedtrip = tripRepository.save(trip);
+
+        userService.getUser(userId).getTrips().add(savedtrip);
     }
 
     @Override

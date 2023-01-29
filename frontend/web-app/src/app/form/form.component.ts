@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import {AppService} from "../app-service";
+import {formatDate} from "@angular/common";
 
 @Component({
   selector: 'app-form',
@@ -8,6 +9,8 @@ import {AppService} from "../app-service";
 })
 export class FormComponent implements OnInit {
 
+  time: number;
+  timeStr: string;
   cordX: cord;
   cordY: cord;
   disabledYes: form;
@@ -22,6 +25,9 @@ export class FormComponent implements OnInit {
   previousX : number;
   previousY : number;
   constructor(private appService: AppService) {
+    this.time = Date.now();
+    this.timeStr = formatDate(this.time, 'HH:mm', 'en-US', '+0100');
+
     this.forms = []
     this.previousX = 0
     this.previousY = 0
@@ -101,6 +107,8 @@ export class FormComponent implements OnInit {
       this.forms.push(this.freeSpacesNo.value)
 
     console.log(this.cordY.value+" "+this.cordX.value)
+    console.log(this.timeStr)
+    this.appService.saveTrip(BigInt(`${localStorage.getItem("userId")}`), this.timeStr, this.cordX.value, this.cordY.value, this.forms);
     this.appService.solve(this.cordX.value,this.cordY.value,this.forms);
   }
 

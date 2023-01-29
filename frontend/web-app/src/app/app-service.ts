@@ -41,12 +41,18 @@ export class AppService {
   }
 
   public createUser(value: any): void {
-    this.http.get<String>(`${this.apiServerUrl}/api/maxsat/createUser?name=${value.name}&surname=${value.surname}&age=${value.age}&preferableZone=${value.preferableZone}`, this.requestOptions).subscribe(
+    this.http.get<String>(`${this.apiServerUrl}/api/maxsat/createUser?name=${value.name}&surname=${value.surname}&age=${value.age}`, this.requestOptions).subscribe(
       response => { console.log(response) ; this.response = String(response)}
     );
   }
 
   public getUsers(): Observable<User[]> {
     return this.http.get<User[]>(`${this.apiServerUrl}/api/maxsat/users`);
+  }
+
+  public saveTrip(userId: BigInt, time: string, cordX: Number, cordY: Number,usersChoices: String []): void{
+    this.http.post(`${this.apiServerUrl}/api/maxsat/saveTrip?userId=${userId}&time=${time}&x=${cordX}&y=${cordY}&usersChoices=${usersChoices}`, {}).subscribe(
+      response => { console.log(response); this.response = String(response)}
+    )
   }
 }

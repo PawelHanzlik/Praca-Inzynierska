@@ -1,10 +1,12 @@
 package engineering.thesis.PSR.Entities;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.sun.istack.NotNull;
 import lombok.*;
 
 import javax.persistence.*;
 import java.time.Instant;
+import java.util.List;
 
 @Entity
 @Getter
@@ -21,18 +23,29 @@ public class TripEntity {
     private Long tripId;
 
     @NotNull
-    private Long userId;
-
-    private Instant beginTime;
-
-    private Instant endTime;
+    @JsonIgnore
+    @ManyToOne(cascade = CascadeType.MERGE)
+    private UserEntity userId;
 
     @NotNull
-    private Long destinationParkingLotId;
+    private Instant time;
 
+    @NotNull
+    private Integer xCordOfZone;
+
+    @NotNull
+    private Integer yCordOfZone;
+
+    @NotNull
+    @ElementCollection
+    private List<String> userChoices;
+
+    /*
     @NotNull
     private Double destinationAttractiveness;
 
     @NotNull
     private Double destinationOccupiedRatio;
+
+     */
 }

@@ -67,7 +67,6 @@ public class UserServiceImpl implements UserService {
             throw new NoSuchZoneException();
         } else {
             UserEntity user = userOptional.get();
-            user.setPreferableZone(newZoneId);
             this.userRepository.save(user);
         }
     }

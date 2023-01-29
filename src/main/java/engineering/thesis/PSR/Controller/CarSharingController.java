@@ -17,9 +17,12 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.ArrayList;
-import java.util.Comparator;
-import java.util.List;
+import java.time.Instant;
+import java.time.LocalDateTime;
+import java.time.LocalTime;
+import java.time.ZoneId;
+import java.time.format.DateTimeFormatter;
+import java.util.*;
 
 @RestController
 @RequestMapping("/api/maxsat")
@@ -31,6 +34,12 @@ public class CarSharingController {
     private final UserHistoryService userHistoryService;
     private final UserService userService;
     private String pickedCity = "";
+
+    private final DateTimeFormatter dateTimeFormatter = DateTimeFormatter.ofPattern("HH:mm", Locale.GERMAN);
+
+    private final ZoneId zoneId = ZoneId.of("Europe/Warsaw");
+
+    private Instant instant = Instant.now();
 
     @Autowired
     public CarSharingController(
@@ -145,7 +154,6 @@ public class CarSharingController {
 
     @GetMapping("/createUser")
     public void createUser(
-        @RequestParam Long preferableZone, 
         @RequestParam String name,
         @RequestParam String surname,
         @RequestParam int age) {
@@ -154,7 +162,7 @@ public class CarSharingController {
             user.setAge(age);
             user.setSurname(surname);
             user.setName(name);
-            user.setPreferableZone(preferableZone);
+            user.setTrips(new ArrayList<>());
 
             this.userService.addUser(user);
         }
@@ -162,5 +170,28 @@ public class CarSharingController {
     @GetMapping("/users")
     public List<UserEntity> getUsers() {
         return this.userService.getAllUsers();
+    }
+
+    @PostMapping("/saveTrip")
+    public void saveTrip(
+            @RequestParam()Long userId,
+            @RequestParam()String time,
+            @RequestParam()Integer x,
+            @RequestParam()Integer y,
+            @RequestParam()String [] usersChoices
+    ){
+        TripEntity trip = new TripEntity();
+
+        trip.setUserId(this.userService.getUser(userId));
+        trip.setTime(Instant.from(instant.atZone(zoneId).with(LocalTime.parse(time))));
+        trip.setXCordOfZone(x);
+        trip.setYCordOfZone(y);
+        trip.setUserChoices(Arrays.asList(usersChoices));
+
+        System.out.println(trip.getXCordOfZone());
+        System.out.println(trip.getYCordOfZone());
+        System.out.println(trip.getTime());
+
+        tripService.addTrip(trip, userId);
     }
 }
