@@ -24,7 +24,11 @@ export class FormComponent implements OnInit {
   forms: String[];
   previousX : number;
   previousY : number;
+  recomendations : string;
+
+
   constructor(private appService: AppService) {
+    this.recomendations = "";
     this.time = Date.now();
     this.timeStr = formatDate(this.time, 'HH:mm', 'en-US', '+0100');
 
@@ -64,6 +68,13 @@ export class FormComponent implements OnInit {
   }
 
   ngOnInit(): void {
+    this.getReccomendations();
+  }
+
+  getReccomendations(){
+    console.log(this.timeStr)
+    this.appService.getReccomendations(BigInt(`${localStorage.getItem("userId")}`), this.timeStr);
+    this.recomendations = this.appService.response;
   }
 
   fooX(value: any) {

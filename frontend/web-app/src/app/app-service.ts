@@ -55,4 +55,10 @@ export class AppService {
       response => { console.log(response); this.response = String(response)}
     )
   }
-}
+
+  public getReccomendations(userId: BigInt, time: string){
+    this.http.get<String>(`${this.apiServerUrl}/api/maxsat/recommend?userId=${userId}&time=${time}`, this.requestOptions).subscribe(
+      response => { console.log(response) ; this.response = String(response)}
+    )
+
+  }}

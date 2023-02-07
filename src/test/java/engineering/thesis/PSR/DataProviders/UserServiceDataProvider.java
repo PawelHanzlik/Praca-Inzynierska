@@ -13,9 +13,9 @@ public class UserServiceDataProvider {
     public static UserEntity usersEntity2;
     public static List<UserEntity> usersEntities;
     static {
-        usersEntity = UserEntity.builder().userId(userId).name("test_name").surname("test_surname").age(40).preferableZone(1L).build();
-        usersEntity1 = UserEntity.builder().userId(userId).name("new_name").surname("new_surname").age(20).preferableZone(2L).build();
-        usersEntity2 = UserEntity.builder().userId(userId).name("test_name").surname("test_surname").age(30).preferableZone(1L).build();
+        usersEntity = UserEntity.builder().userId(userId).name("test_name").surname("test_surname").age(40).build();
+        usersEntity1 = UserEntity.builder().userId(userId).name("new_name").surname("new_surname").age(20).build();
+        usersEntity2 = UserEntity.builder().userId(userId).name("test_name").surname("test_surname").age(30).build();
         usersEntities = new ArrayList<>();
         usersEntities.add(usersEntity);
         usersEntities.add(usersEntity1);

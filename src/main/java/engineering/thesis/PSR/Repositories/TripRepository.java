@@ -9,5 +9,5 @@ import java.util.List;
 
 @Repository
 public interface TripRepository extends JpaRepository<TripEntity,Long> {
-    List<TripEntity> findTripEntitiesByUserId(Long userId);
+    List<TripEntity> findTripEntitiesByUserId(UserEntity userId);
 }

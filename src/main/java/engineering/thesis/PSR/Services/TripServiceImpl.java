@@ -1,6 +1,7 @@
 package engineering.thesis.PSR.Services;
 
 import engineering.thesis.PSR.Entities.TripEntity;
+import engineering.thesis.PSR.Entities.UserEntity;
 import engineering.thesis.PSR.Repositories.TripRepository;
 import org.springframework.stereotype.Service;
 
@@ -18,7 +19,8 @@ public class TripServiceImpl implements TripService{
 
     @Override
     public List<TripEntity> getTrips(Long userId) {
-        return tripRepository.findTripEntitiesByUserId(userId);
+        UserEntity user = userService.getUser(userId);
+        return tripRepository.findTripEntitiesByUserId(user);
     }
 
     @Override

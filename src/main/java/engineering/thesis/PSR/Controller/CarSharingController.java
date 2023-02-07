@@ -194,4 +194,164 @@ public class CarSharingController {
 
         tripService.addTrip(trip, userId);
     }
+
+    @GetMapping("/recommend")
+    public ResponseEntity<String> recommend(@RequestParam()Long userId, @RequestParam()String time){
+        List<TripEntity> prevTrips = tripService.getTrips(userId);
+
+        LocalTime currentTime = LocalTime.parse(time);
+        LocalTime startTime;
+        LocalTime endTime;
+
+        LocalTime hourSix = LocalTime.parse("06:00");
+        LocalTime hourFourteen = LocalTime.parse("14:00");
+        LocalTime hourTwentyTwo = LocalTime.parse("22:00");
+
+        if (currentTime.isAfter(hourSix)){
+            if (currentTime.isBefore(hourFourteen)){
+                startTime = hourSix;
+                endTime = hourFourteen;
+            }
+            else {
+                startTime = hourFourteen;
+                endTime = hourTwentyTwo;
+            }
+        }
+        else {
+            startTime = hourTwentyTwo;
+            endTime = hourSix;
+        }
+
+
+
+        List<ZoneEntity> zones = new ArrayList<>();
+        zoneService.getAllZones().forEach(zone -> {
+            if (zone.getCity().equals(pickedCity)) {
+                zones.add(zone);
+            }});
+
+        @Getter
+        class Cords {
+            public final int x;
+            public final int y;
+
+            public Cords(int x, int y) {
+                this.x = x;
+                this.y = y;
+            }
+
+            @Override
+            public int hashCode() {
+                return (x+"&"+y).hashCode();
+            }
+
+            @Override
+            public boolean equals(Object obj) {
+                return (obj instanceof Cords) && ((Cords) obj).x == this.x && ((Cords) obj).y == this.y;
+            }
+
+            @Override
+            public String toString() {
+                return String.format("%d %d", x, y);
+            }
+
+        }
+
+        Map<Cords, Integer> countingZoneMap = new HashMap<>();
+        for (ZoneEntity zone: zones){
+            countingZoneMap.put(new Cords(zone.getCordX(), zone.getCordY()), 0);
+        }
+
+        @Getter
+        class Prefs {
+            public final String first;
+            public final String second;
+            public final String third;
+            public final String fourth;
+
+            public Prefs(String first, String second, String third, String fourth) {
+                this.first = first;
+                this.second = second;
+                this.third = third;
+                this.fourth = fourth;
+            }
+
+            public String[] getAll(){
+                return new String[]{this.first, this.second, this.third, this.fourth};
+            }
+
+            @Override
+            public int hashCode() {
+                return (this.first+this.second+this.third+this.fourth).hashCode();
+            }
+
+            @Override
+            public boolean equals(Object obj) {
+                return (obj instanceof Prefs) && ((Prefs) obj).first.equals(this.first)
+                        && ((Prefs) obj).second.equals(this.second)
+                        && ((Prefs) obj).third.equals(this.third)
+                        && ((Prefs) obj).fourth.equals(this.fourth);
+            }
+
+            @Override
+            public String toString() {
+                return String.format("%s, %s, %s, %s", first, second, third, fourth);
+            }
+
+        }
+
+        Map<Prefs, Integer> countingPrefMap = new HashMap<>();
+        for (int i=0;i<16;i++){
+            List<String> prefs = new ArrayList<>();
+
+            int j = i;
+            while (j > 0) {
+                prefs.add((j % 2 == 0) ? "No" : "Yes");
+                j = j/2;
+            }
+            while (prefs.size() < 4){
+                prefs.add("No");
+            }
+
+            countingPrefMap.put(new Prefs(prefs.get(0), prefs.get(1), prefs.get(2), prefs.get(3)), 0);
+        }
+
+        LocalTime prevTime;
+
+        for (TripEntity trip: prevTrips){
+            prevTime = LocalTime.parse(trip.getTime().atZone(zoneId).getHour() + ":" + trip.getTime().atZone(zoneId).getMinute());
+            if (startTime.isBefore(endTime)){
+                if (prevTime.isAfter(startTime) && prevTime.isBefore(endTime)){
+                    Cords cords = new Cords(trip.getXCordOfZone(), trip.getYCordOfZone());
+                    countingZoneMap.put(cords, countingZoneMap.get(cords)+1);
+                    Prefs prefs = new Prefs(trip.getUserChoices().get(0), trip.getUserChoices().get(1),
+                            trip.getUserChoices().get(2), trip.getUserChoices().get(3));
+                    countingPrefMap.put(prefs, countingPrefMap.get(prefs)+1);
+                }
+            }
+            else {
+                if (prevTime.isAfter(startTime) || prevTime.isBefore(endTime)){
+                    Cords cords = new Cords(trip.getXCordOfZone(), trip.getYCordOfZone());
+                    countingZoneMap.put(cords, countingZoneMap.get(cords)+1);
+                    Prefs prefs = new Prefs(trip.getUserChoices().get(0), trip.getUserChoices().get(1),
+                            trip.getUserChoices().get(2), trip.getUserChoices().get(3));
+                    countingPrefMap.put(prefs, countingPrefMap.get(prefs)+1);
+                }
+            }
+
+        }
+
+        System.out.println(countingZoneMap);
+        Cords selectedCords = Collections.max(countingZoneMap.entrySet(), Comparator.comparingInt(Map.Entry::getValue)).getKey();
+        System.out.println(selectedCords);
+
+        System.out.println(countingPrefMap);
+        Prefs selectedPrefs = Collections.max(countingPrefMap.entrySet(), Comparator.comparingInt(Map.Entry::getValue)).getKey();
+        System.out.println(selectedPrefs);
+
+        return searchForParkingSpot(selectedCords.getX(), selectedCords.getY(), selectedPrefs.getAll());
+    }
+
+
+
 }
