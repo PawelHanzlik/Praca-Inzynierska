@@ -5,134 +5,150 @@
   transform: translate(-50%, -50%);
   font-size: 15pt;
 }
-#CordsTitle{
+#czasLabel{
+  position: absolute;
+  top: 23%;
+  left: 39%;
+}
+#czas{
   position: absolute;
   top: 23%;
   left: 49.8%;
 }
-#CordX{
+#recommendations{
   position: absolute;
   top: 27%;
+  left: -20%;
+  width:2000px
+}
+#CordsTitle{
+  position: absolute;
+  top: 33%;
+  left: 49.8%;
+}
+#CordX{
+  position: absolute;
+  top: 37%;
   left: 45.8%;
 }
 #CordXTitle{
   position: absolute;
-  top: 27%;
+  top: 37%;
   left: 40%;
 }
 #CordY{
   position: absolute;
-  top: 27%;
+  top: 37%;
   left: 53.8%;
 }
 #CordYTitle{
   position: absolute;
-  top: 27%;
+  top: 37%;
   left: 59.5%;
 }
 #disabledTitle{
   position: absolute;
-  top: 30%;
+  top: 40%;
   left: 49.8%;
 }
 #disabledYes{
   position: absolute;
-  top: 36%;
+  top: 46%;
   left: 40%;
 }
 #disabledYesLabel{
   position: absolute;
-  top: 36%;
+  top: 46%;
   left: 42%;
 }
 #disabledNo{
   position: absolute;
-  top: 36%;
+  top: 46%;
   left: 57%;
 }
 #disabledNoLabel{
   position: absolute;
-  top: 36%;
+  top: 46%;
   left: 59%;
 }
 #paidTitle{
   position: absolute;
-  top: 37%;
+  top: 48%;
   left: 44.8%;
 }
 #paidYes{
   position: absolute;
-  top: 43%;
+  top: 53%;
   left: 40%;
 }
 #paidYesLabel{
   position: absolute;
-  top: 43%;
+  top: 53%;
   left: 42%;
 }
 #paidNo{
   position: absolute;
-  top: 43%;
+  top: 53%;
   left: 57%;
 }
 #paidNoLabel{
   position: absolute;
-  top: 43%;
+  top: 53%;
   left: 59%;
 }
 #guardedTitle{
   position: absolute;
-  top: 44%;
+  top: 54%;
   left: 46.9%;
 }
 #guardedYes{
   position: absolute;
-  top: 50%;
+  top: 60%;
   left: 40%;
 }
 #guardedYesLabel{
   position: absolute;
-  top: 50%;
+  top: 60%;
   left: 42%;
 }
 #guardedNo{
   position: absolute;
-  top: 50%;
+  top: 60%;
   left: 57%;
 }
 #guardedNoLabel{
   position: absolute;
-  top: 50%;
+  top: 60%;
   left: 59%;
 }
 #freeSpacesTitle{
   position: absolute;
-  top: 51%;
+  top: 61%;
   left: 48.9%;
 }
 #freeSpacesYes{
   position: absolute;
-  top: 57%;
+  top: 67%;
   left: 40%;
 }
 #freeSpacesYesLabel{
   position: absolute;
-  top: 57%;
+  top: 67%;
   left: 42%;
 }
 #freeSpacesNo{
   position: absolute;
-  top: 57%;
+  top: 67%;
   left: 57%;
 }
 #freeSpacesNoLabel{
   position: absolute;
-  top: 57%;
+  top: 67%;
   left: 59%;
 }
 .button {
   position: absolute;
-  top: 63%;
+  top: 73%;
   right: 35%;
   font-size: 15pt;
 }

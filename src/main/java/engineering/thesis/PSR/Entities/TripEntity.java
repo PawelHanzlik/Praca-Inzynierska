@@ -40,12 +40,4 @@ public class TripEntity {
     @ElementCollection
     private List<String> userChoices;
 
-    /*
-    @NotNull
-    private Double destinationAttractiveness;
-
-    @NotNull
-    private Double destinationOccupiedRatio;
-
-     */
 }

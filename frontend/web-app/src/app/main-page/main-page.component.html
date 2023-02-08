@@ -1,13 +1,12 @@
 <div>
   <h1>Welcome to Engineering Thesis recommendation system project</h1>
-  <p id="buttonText"> Click this button to begin</p>
   <div class="center">
-    
-    <a (click)="generateData()" routerLink="/select">
-        <button class="button">NEXT></button>
-    </a>
-    
-  
+
+    <button (click)="generateData()" class="button" >
+        <a routerLink="/select">RECOMMENDATION></a>
+    </button>
+
+
     <button class="button">
       <a routerLink="/create">CREATE USER></a>
     </button>

@@ -18,7 +18,6 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.time.Instant;
-import java.time.LocalDateTime;
 import java.time.LocalTime;
 import java.time.ZoneId;
 import java.time.format.DateTimeFormatter;
@@ -39,7 +38,7 @@ public class CarSharingController {
 
     private final ZoneId zoneId = ZoneId.of("Europe/Warsaw");
 
-    private Instant instant = Instant.now();
+    private final Instant instant = Instant.now();
 
     @Autowired
     public CarSharingController(
@@ -198,7 +197,6 @@ public class CarSharingController {
     @GetMapping("/recommend")
     public ResponseEntity<String> recommend(@RequestParam()Long userId, @RequestParam()String time){
         List<TripEntity> prevTrips = tripService.getTrips(userId);
-
         LocalTime currentTime = LocalTime.parse(time);
         LocalTime startTime;
         LocalTime endTime;
@@ -319,7 +317,13 @@ public class CarSharingController {
         LocalTime prevTime;
 
         for (TripEntity trip: prevTrips){
-            prevTime = LocalTime.parse(trip.getTime().atZone(zoneId).getHour() + ":" + trip.getTime().atZone(zoneId).getMinute());
+            String hour = String.valueOf(trip.getTime().atZone(zoneId).getHour());
+            if (hour.length() == 1)
+                hour = "0" + hour;
+            String minute = String.valueOf(trip.getTime().atZone(zoneId).getMinute());
+            if (minute.length() == 1)
+                minute = "0" + minute;
+            prevTime = LocalTime.parse(hour + ":" + minute);
             if (startTime.isBefore(endTime)){
                 if (prevTime.isAfter(startTime) && prevTime.isBefore(endTime)){
                     Cords cords = new Cords(trip.getXCordOfZone(), trip.getYCordOfZone());
@@ -340,7 +344,6 @@ public class CarSharingController {
             }
 
         }
-
         System.out.println(countingZoneMap);
         Cords selectedCords = Collections.max(countingZoneMap.entrySet(), Comparator.comparingInt(Map.Entry::getValue)).getKey();
         System.out.println(selectedCords);
@@ -349,6 +352,8 @@ public class CarSharingController {
         Prefs selectedPrefs = Collections.max(countingPrefMap.entrySet(), Comparator.comparingInt(Map.Entry::getValue)).getKey();
         System.out.println(selectedPrefs);
 
+        if (countingZoneMap.get(selectedCords) == 0 || countingPrefMap.get(selectedPrefs) == 0)
+            return new ResponseEntity<>("", HttpStatus.OK);
         return searchForParkingSpot(selectedCords.getX(), selectedCords.getY(), selectedPrefs.getAll());
     }
 

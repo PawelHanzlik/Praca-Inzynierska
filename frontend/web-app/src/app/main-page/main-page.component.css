@@ -11,3 +11,13 @@
   width: 100%;
   margin: 1em;
 }
+.button{
+  background-color: cadetblue;
+}
+.button a {
+  color: #000000;
+  text-decoration: none;
+}
+.button a:hover {
+  color: green;
+}

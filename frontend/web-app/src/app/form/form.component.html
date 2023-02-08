@@ -1,12 +1,13 @@
 <div id="propositions">
 
 
-  <label class="centered">Czas:</label>
-  <input class="centered" [defaultValue]="timeStr" [(ngModel)]="timeStr">
+  <label id="czasLabel" class="centered">Time:</label>
+  <input id="czas" class="centered" [defaultValue]="timeStr" [(ngModel)]="timeStr">
 
   <br>
-  <p class="centered"> {{recomendations}} </p>
-
+  <div id="recommendations">
+    <p class="centered" > {{recomendations}} </p>
+  </div>
 </div>
 
 

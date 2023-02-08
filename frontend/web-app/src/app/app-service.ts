@@ -52,13 +52,10 @@ export class AppService {
 
   public saveTrip(userId: BigInt, time: string, cordX: Number, cordY: Number,usersChoices: String []): void{
     this.http.post(`${this.apiServerUrl}/api/maxsat/saveTrip?userId=${userId}&time=${time}&x=${cordX}&y=${cordY}&usersChoices=${usersChoices}`, {}).subscribe(
-      response => { console.log(response); this.response = String(response)}
+      response => {}
     )
   }
 
-  public getReccomendations(userId: BigInt, time: string){
-    this.http.get<String>(`${this.apiServerUrl}/api/maxsat/recommend?userId=${userId}&time=${time}`, this.requestOptions).subscribe(
-      response => { console.log(response) ; this.response = String(response)}
-    )
-
+  public getReccomendations<String>(userId: BigInt, time: string) : Observable<any>{
+    return this.http.get<String>(`${this.apiServerUrl}/api/maxsat/recommend?userId=${userId}&time=${time}`, this.requestOptions)
   }}

@@ -73,8 +73,12 @@ export class FormComponent implements OnInit {
 
   getReccomendations(){
     console.log(this.timeStr)
-    this.appService.getReccomendations(BigInt(`${localStorage.getItem("userId")}`), this.timeStr);
-    this.recomendations = this.appService.response;
+    this.appService.getReccomendations(BigInt(`${localStorage.getItem("userId")}`), this.timeStr).subscribe(
+      (response) => {
+      this.recomendations = response;
+    }
+    );
+
   }
 
   fooX(value: any) {
